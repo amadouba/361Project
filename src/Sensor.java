@@ -28,18 +28,18 @@ public class Sensor {
 		isConnected = false ;
 
 	}
-	/**
-	 * calls start or finish depending on whether the type is even or odd
-	 * @return time in seconds 
-	 */
-	public void channelTrigger(){
-		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
-		//sens.sensorTrigger();
-		if(c.getType() % 2 == 1)
-			ChronoTimer.start();
-		else
-			ChronoTimer.finish();
-	}
+//	/**
+//	 * calls start or finish depending on whether the type is even or odd
+//	 * @return time in seconds 
+//	 */
+//	public void channelTrigger(){
+//		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
+//		//sens.sensorTrigger();
+//		if(c.getType() % 2 == 1)
+//			ChronoTimer.start();
+//		else
+//			ChronoTimer.finish();
+//	}
 
 
 
@@ -58,4 +58,4 @@ public class Sensor {
 	//		return 0 ;
 	//	}
 
-}
+}	

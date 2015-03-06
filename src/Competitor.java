@@ -29,7 +29,6 @@ public class Competitor {
 	}
 	public void setFinishTime(double d){
 		if(Double.isNaN(startTime)) throw new IllegalStateException();
-		if(d<0) finishTime = Double.NaN;
 		finishTime = d;
 	}
 	public double getFinishTime(){

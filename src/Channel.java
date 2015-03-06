@@ -52,6 +52,7 @@ public class Channel {
 		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
 		return trigger = Time.getCurrentTime ();
 	}
+	
 
 	/**
 	 * public void setSystemTime(double x){

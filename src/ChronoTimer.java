@@ -111,7 +111,7 @@ public class ChronoTimer {
 
 		//completedRacers.add(toFinish.remove().setFinishTime(-1));
 		Competitor c = toFinish.remove();
-		c.setFinishTime(-1); //maybe add "did not finish" variable in competitor? TODO TODO TODO
+		c.setFinishTime(Double.NaN); //maybe add "did not finish" variable in competitor? TODO TODO TODO
 		completedRacers.add(c);
 	}
 
@@ -154,9 +154,9 @@ public class ChronoTimer {
 		if(!power) throw new IllegalStateException();
 		System.out.println("Run \t BIB \t TIME");
 		for (Competitor c : completedRacers) {
-			System.out.println(c.getNumber() + ": " + c.getStartTime());
+			//System.out.println(c.getNumber() + ": " + c.getStartTime());
 			if(!c.isDNF())
-				System.out.println("1 \t" + c.getNumber() + "\t" + c.calculateTotalTime());
+				System.out.println("1 \t" + c.getNumber() + "\t" + String.format("%.2f", c.calculateTotalTime()));
 			else
 				System.out.println("1 \t" + c.getNumber() + "\t" + "DNF");
 		}
