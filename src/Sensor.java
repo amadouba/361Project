@@ -28,14 +28,25 @@ public class Sensor {
 		isConnected = false ;
 
 	}
-	
+	/**
+	 * calls start or finish depending on whether the type is even or odd
+	 * @return time in seconds 
+	 */
+	public void channelTrigger(){
+		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
+		//sens.sensorTrigger();
+		if(c.getType() % 2 == 1)
+			ChronoTimer.start();
+		else
+			ChronoTimer.finish();
+	}
 
 
 
-	public boolean sensorTrigger (){
+
+	public void sensorTrigger (){
 		if (isConnected){
 			c.channelTrigger();
-			return true ;
 		}
 		else
 			throw new IllegalStateException("a sensor is not connected to this channel");

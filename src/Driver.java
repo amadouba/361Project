@@ -51,7 +51,7 @@ public class Driver {
 			else if(strAr[0].equals("NUM"))
 				ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
 
-			if(strAr[0].equals("TIME"))
+			else if(strAr[0].equals("TIME"))
 				Time.setStartTime(Time.fromString(strAr[1]));
 			else
 				throw new IllegalArgumentException();
@@ -59,7 +59,7 @@ public class Driver {
 		//CONN
 		else if(strAr.length==3){
 			if(strAr[0].equals("CONN"))
-				ChronoTimer.connectChanel(strAr[1], Integer.parseInt(strAr[2]));
+				ChronoTimer.connectChannel(strAr[1], Integer.parseInt(strAr[2]));
 			else
 				throw new IllegalArgumentException();
 		}
