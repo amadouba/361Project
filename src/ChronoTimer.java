@@ -1,4 +1,4 @@
-//import java.nio.channels.Channel;
+
 import java.util.*;
 public class ChronoTimer {
 
@@ -37,16 +37,20 @@ public class ChronoTimer {
 			disarmAll();
 		}
 	}
-
+/**
+ * Connects a sensor to a channel
+ * @param type the type of sensor to be connected
+ * @param index the channel 
+ */
 	public static void connectChannel(String type, int index)   // we don't need this, all 8 channels are connected by default
 	{
-		if(index>channels.length||index<1) throw new IllegalArgumentException();
+		if(index>channels.length||index<1) throw new IllegalArgumentException(channels.length + " Channels");
 		channels[index-1].connectSensor(new Sensor(type));
 	}
 
 	public static void armChannel(int index)
 	{
-		if(index>channels.length) throw new IllegalArgumentException();
+		if(index>channels.length) throw new IllegalArgumentException(channels.length + " Channels");
 		if(channels[index-1] == null) throw new IllegalArgumentException();
 		channels[index-1].arm();
 
@@ -54,11 +58,15 @@ public class ChronoTimer {
 
 	public static void disarmChannel(int index)
 	{
-		if(index>channels.length) throw new IllegalArgumentException();
+		if(index>channels.length) throw new IllegalArgumentException(channels.length + " Channels");
 		if(channels[index-1] == null) throw new IllegalArgumentException();
 		channels[index-1].disArm();
 	}
 
+	/**Disarms all the channels
+	 * Precondition: The system must be on 
+	 * 
+	 */
 	public static void disarmAll()
 	{
 		if(!power) throw new IllegalStateException();
@@ -70,30 +78,53 @@ public class ChronoTimer {
 		}
 
 	}
+	
+	public static void TriggerChannel (int index){
+		channels[index-1].channelTrigger();
+	}
+	/**
+	 * Switch the state of a channel from armed/disarmed to disarmed/armed
+	 * @param index represents the channel
+	 */
+	public static void toggleChannel (int index){
+		channels[index - 1].toggle();
+	}
 
 
+	/**
+	 * adds a competitor as the next to start 
+	 * Precondition: System must be on
+	 * @param c the competitor
+	 */
 	public static void addCompetitor(Competitor c)
 	{
-		if(!power) throw new IllegalStateException();
+		if(!power) throw new IllegalStateException("Timer is OFF");
 		if(toStart != null && toStart.contains(c)) throw new IllegalArgumentException();
 		toStart.add(c);    	   	
 	}
-
+	
+	/**Takes the next competitor in line and set its start time
+	 * @precondition System is on and the queue of competitors isnt empty
+	 * @postcondition the first competitor in line has been added to the line for finish
+	 * 
+	 */
 	public static void start()  //start, finish, dnf, and cancel are either called manually (in driver/test class)
 	{														        // or called in trigger() (in Channel)
-		if(!power) throw new IllegalStateException();
-		if(toStart.isEmpty()) throw new IllegalStateException();
+		if(!power) throw new IllegalStateException("Timer is OFF");
+		if(toStart.isEmpty()) throw new IllegalStateException("NO Competitor in queue");
 
 		Competitor c = toStart.remove(0); 
 		c.setStartTime(Time.getCurrentTime());
 		toFinish.add(c);
 
 	}
-
+	/**Takes the first competitor to have started the run and finishes it
+	 * @PRECONDITION system is on and there are competitors running
+	 */
 	public static void finish()
 	{
-		if(!power) throw new IllegalStateException();
-		if(toFinish.peek() == null) throw new IllegalStateException();
+		if(!power) throw new IllegalStateException("Timer is OFF");
+		if(toFinish.peek() == null) throw new IllegalStateException("No competitor");
 
 
 		//completedRacers.add(toFinish.remove().setFinishTime(Time.getCurrentTime()));
@@ -103,10 +134,12 @@ public class ChronoTimer {
 		completedRacers.add(c);
 
 	}
-
+/**Marks the next running competitor as did not finish
+ * 
+ */
 	public static void dnf()
 	{
-		if(!power) throw new IllegalStateException();
+		if(!power) throw new IllegalStateException("Timer is OFF");
 		if(toFinish.peek() == null) throw new IllegalStateException();
 
 		//completedRacers.add(toFinish.remove().setFinishTime(-1));

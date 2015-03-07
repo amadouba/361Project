@@ -45,58 +45,19 @@ public class Channel {
 	}
 
 	/**
-	 * takes a snapshot of the current time and returns it to the system.
+	 * calls start or finish depending on whether the type is even or odd
 	 * @return time in seconds 
 	 */
-	public double channelTrigger(){
+	public void channelTrigger(){
 		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
-		return trigger = Time.getCurrentTime ();
+		if(type % 2 == 1)
+			ChronoTimer.start();
+		else
+			ChronoTimer.finish();
 	}
 	
 
-	/**
-	 * public void setSystemTime(double x){
- 		trigger 
- 	}
-	 * 
-	 */
-
-
-//	static class Sensor {
-//		final private String typeOfSensor ;
-//		boolean isConnected ;
-//		static Channel c ;
-//
-//		Sensor (String s){
-//			typeOfSensor = s ;
-//		}
-//		// for testing purposes
-//		Sensor (String s ,Channel ch, boolean b){
-//			typeOfSensor = s ;
-//			isConnected = ch == null ? false :  b ;
-//			c = ch ;
-//
-//		}
-//		boolean connectChannel (Channel ch){
-//			if (ch != null){
-//				c = ch ;
-//				isConnected = true ;
-//				return true ;
-//			}
-//			return false; 
-//		}
-//		void disConnectChannel(){
-//			c = null ;
-//			isConnected = false ;
-//
-//		}
-//		double trigger (){
-//			if (isConnected){
-//				return c.getSystemTime() ;
-//			}
-//			return 0 ;
-//		}
-//	}
+	
 
 
 }

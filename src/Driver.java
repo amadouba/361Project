@@ -14,7 +14,10 @@ public class Driver {
 		while(loop==true){
 			System.out.print(Time.toString(Time.getCurrentTime())+ "\t");
 			String s = stdIn.nextLine();
-			if(s.equals("EXIT")) loop = false;
+			if(s.equals("EXIT")) {
+				loop = false;
+				stdIn.close();
+			}
 			else{
 				parseInput(s);
 			}
@@ -41,20 +44,22 @@ public class Driver {
 			else if(strAr[0].equals("PRINT"))
 				ChronoTimer.print();
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("ILLEGAL COMMAND");
 		}
 		//TOGGLE, NUM, TIME
 		//if(strAr.length == 1){}
 		else if(strAr.length==2){
-			if(strAr[0].equals("TOGGLE"))
-				ChronoTimer.armChannel(Integer.parseInt(strAr[1]));
+			if(strAr[0].equals("TOG"))
+				ChronoTimer.toggleChannel(Integer.parseInt(strAr[1]));
 			else if(strAr[0].equals("NUM"))
 				ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
 
 			else if(strAr[0].equals("TIME"))
 				Time.setStartTime(Time.fromString(strAr[1]));
+			else if (strAr[0].equals("TRIG"))
+				ChronoTimer.TriggerChannel(Integer.parseInt(strAr[1]));
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("ILLEGAL COMMAND");
 		}
 		//CONN
 		else if(strAr.length==3){
@@ -64,7 +69,7 @@ public class Driver {
 				throw new IllegalArgumentException();
 		}
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("ILLEGAL COMMAND");
 
 	}
 
