@@ -31,7 +31,7 @@ public class Time {
 		if(hour>23) throw new IllegalStateException("hour is greater than 23");
 		if(minute>59) throw new IllegalStateException("minute is greater than 59");
 		if(second>=(double)60) throw new IllegalStateException("second is equal to or greater than 60");
-
+		
 		return hour+":"+minute+":"+String.format("%.2f",second);	
 	}
 	public static double fromString(String s){
