@@ -20,6 +20,7 @@ public class ChronoTimer {
 	public static void powerOn()
 	{
 		power = true ;
+		
 	}
 
 	public static void powerOff()

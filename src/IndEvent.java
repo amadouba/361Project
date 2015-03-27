@@ -16,9 +16,6 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 	public int[] fn()
 	{
 		
-
-		//completedRacers.add(toFinish.remove().setFinishTime(Time.getCurrentTime()));
-
 		Competitor c = toFinish.remove();
 		c.setFinishTime(Time.getCurrentTime());
 		completedRacers.add(c);

@@ -1,30 +1,58 @@
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
-public class Driver {
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+
+public class Driver extends JFrame {
 
 
 
 private static double ts ;
+private static Timer timer ;
 
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		Scanner stdIn = new Scanner(System.in);
+		Scanner stdIn ;
 		boolean loop = true;
 		ChronoTimer.logStr[0] = "";
+		double t = 0 ; 
+		String s = "" ;
 	
-	c : while(loop==true){
+		//In case of a test file input
+		if (args.length > 0 ){
+			stdIn = new Scanner (new File (args[0]));
+			t = 1 ;
+		}
+		else 
+			stdIn = new Scanner(System.in);
+  
+		
+		
+		// Set up a timer here for frame updates 
+		//Updates every 100th of second while a competitor is running
+	
+		
+	c : while(loop==true  ){
 	      try {
+	    	  
 			ts = Time.getCurrentTime();
-			System.out.print(Time.toString(ts)+ "\t");
-			String s = stdIn.nextLine();
-			ChronoTimer.log(ts, s);
-			if(s.equals("EXIT")) {
+			System.out.println(Time.toString(ts)+ "\t" + s);
+			s = stdIn.nextLine()  ;
+			
+			if(s == null || s.equals("EXIT")) {
 				loop = false;
 				stdIn.close();
-			}
-			else{
+			}			
+			else{			
+				ChronoTimer.log(ts, s);
+
 				parseInput(s);
 			}
 			
@@ -44,6 +72,10 @@ private static double ts ;
 	
 		
 	}
+	
+	  
+	   
+
 
 	private static void parseInput(String s)throws IllegalArgumentException{
 		String[] strAr = s.split(" ");
