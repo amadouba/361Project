@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -16,19 +18,21 @@ public class Driver extends JFrame {
 private static double ts ;
 private static Timer timer ;
 
+private static int delay = 10 ;
+
 
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		Scanner stdIn ;
 		boolean loop = true;
 		ChronoTimer.logStr[0] = "";
-		double t = 0 ; 
+		int latency = 0  ; 
 		String s = "" ;
 	
 		//In case of a test file input
 		if (args.length > 0 ){
 			stdIn = new Scanner (new File (args[0]));
-			t = 1 ;
+			latency = 1000 ;
 		}
 		else 
 			stdIn = new Scanner(System.in);
@@ -36,12 +40,24 @@ private static Timer timer ;
 		
 		
 		// Set up a timer here for frame updates 
-		//Updates every 100th of second while a competitor is running
+	   //Updates every 100th of second while a competitor is running 
+	  //Timer starts when start is called, only if timer is not running already
+	 //       stops when finish is called, only if Chronotimer.toFinish is empty
+		
+		ActionListener task = new ActionListener (){
+			public void actionPerformed (ActionEvent e){
+				//UpdateR();
+			}
+		};
+		timer = new Timer(delay,task);
+		
+		
 	
+	// Scanner Loop for input
 		
 	c : while(loop==true  ){
 	      try {
-	    	  
+	    	if (latency > 0) { latency = (latency >= 2000 ) ? 1000 :  latency +200 ; Thread.sleep(latency);  }    // when simulating with a file as input
 			ts = Time.getCurrentTime();
 			System.out.println(Time.toString(ts)+ "\t" + s);
 			s = stdIn.nextLine()  ;
@@ -54,8 +70,10 @@ private static Timer timer ;
 				ChronoTimer.log(ts, s);
 
 				parseInput(s);
+				
 			}
 			
+			// Throws Exception and gets back in the loop
 	   }catch (IllegalStateException e){
 		   ChronoTimer.log(Time.getCurrentTime(), "Illegal State Exception " + e.getMessage());
 			continue c ;
@@ -73,10 +91,19 @@ private static Timer timer ;
 		
 	}
 	
-	  
-	   
+     // For GUI updates. Updates the "Queue" panel when {start,num,set,clr} is called
+	//                   Updates the "Running" panel when {finish,dnf,cancel,start} is called only if timer is not running
+   //                    Updates the "Finished" panel when {finish,dnf,cancel} is called 
+	
+	
+	
 
-
+	
+	
+	
+	
+	// Input Parsing
+	
 	private static void parseInput(String s)throws IllegalArgumentException{
 		String[] strAr = s.split(" ");
 		//ON, OFF, START, FIN, DNF, CANCEL, PRINT
@@ -85,14 +112,29 @@ private static Timer timer ;
 				ChronoTimer.powerOn();
 			else if(strAr[0].equals("OFF"))
 				ChronoTimer.powerOff();
-			else if(strAr[0].equals("START"))
+			else if(strAr[0].equals("START")){
 				ChronoTimer.start();
-			else if(strAr[0].equals("FIN"))
+				if (!timer.isRunning()) timer.start();
+				//updateQ();
+			}
+			else if(strAr[0].equals("FIN")){
 				ChronoTimer.finish();
-			else if(strAr[0].equals("DNF"))
+				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
+				//updateR();
+				//updateF();
+			}
+			else if(strAr[0].equals("DNF")){
 				ChronoTimer.dnf();
-			else if(strAr[0].equals("CANCEL"))
+				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
+				//updateR();
+				//updateF();
+			}
+			else if(strAr[0].equals("CANCEL")){
 				ChronoTimer.cancel();
+				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
+				//updateR();
+				//updateF();
+			}
 			else if(strAr[0].equals("PRINT"))
 				ChronoTimer.print();
 			else if(strAr[0].equals("EXPORT"))
@@ -109,13 +151,21 @@ private static Timer timer ;
 		else if(strAr.length==2){
 			if(strAr[0].equals("TOGGLE"))
 				ChronoTimer.toggleChannel(Integer.parseInt(strAr[1]));
-			else if(strAr[0].equals("NUM"))
-				ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
-
+			else if(strAr[0].equals("NUM")){
+			    ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
+			    //updateQ();
+			}
 			else if(strAr[0].equals("TIME"))
 				Time.setStartTime(Time.fromString(strAr[1]));
-			else if (strAr[0].equals("TRIG"))
+			else if (strAr[0].equals("TRIG")){
 				ChronoTimer.TriggerChannel(Integer.parseInt(strAr[1]));
+				if (!timer.isRunning()) timer.start(); //updateQ();}                      // in this case it is a start trigger
+				else {                                                                    // in this case it is a finish trigger
+					if (ChronoTimer.toFinish.isEmpty()) timer.stop();
+					//updateR();
+					//updateF(); 
+				}                                                
+			}
 			else
 				throw new IllegalArgumentException ("ILLEGAL COMMAND");
 		}

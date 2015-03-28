@@ -6,3 +6,11 @@
 /Time.class
 /EventInterface.class
 /IndEvent.class
+/ChronoTimerGUI.class
+/ChronoTimerGUI$FinishPanel.class
+/ChronoTimerGUI$QueuePanel.class
+/ChronoTimerGUI$RunningPanel.class
+/DriverTest.class
+/Driver$update.class
+/Driver$1.class
+/DriverTest$1.class
