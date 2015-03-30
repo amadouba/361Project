@@ -23,8 +23,13 @@ public class ChronoTimer {
 		
 	}
 
+	public static boolean getPower(){
+		return power;
+	}
+	
 	public static void powerOff()
 	{
+		reset();
 		power = false ;
 	}
 	
@@ -43,11 +48,6 @@ public class ChronoTimer {
 		numbers = typeEvent.fn();
 		log (numbers, "FINISH" , Time.getCurrentTime() ) ;
 
-	}
-	public static void exit()
-	{
-		if(power == true)
-			System.exit(0);   //might need to be redone, not sure what exit is supposed to do
 	}
 
 	public static void reset()
@@ -71,6 +71,11 @@ public class ChronoTimer {
 		if(index>channels.length||index<1) throw new IllegalArgumentException(channels.length + " Channels");
 		channels[index-1].connectSensor(new Sensor(type));
 	}
+	
+	public static boolean isArmed(int i){
+		return channels[i-1].isArmed();
+	}
+	
 
 	public static void armChannel(int index)
 	{

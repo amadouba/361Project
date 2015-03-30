@@ -18,6 +18,10 @@ public class Channel {
 	public void disArm(){
 		isArmed = false ;
 	}
+	
+	public boolean isArmed(){
+		return isArmed;
+	}
 
 	/**Links a sensor and this channel
 	 * Precond: the argument is not null

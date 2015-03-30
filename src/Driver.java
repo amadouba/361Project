@@ -17,7 +17,7 @@ public class Driver extends JFrame {
 
 private static double ts ;
 private static Timer timer ;
-
+private final static ChronoTimerGUI m = new ChronoTimerGUI () ;
 private static int delay = 10 ;
 
 
@@ -37,7 +37,11 @@ private static int delay = 10 ;
 		else 
 			stdIn = new Scanner(System.in);
   
+		//Builds the GUI 
 		
+		m.setSize(800, 800);
+		m .setVisible(true);
+		m.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// Set up a timer here for frame updates 
 	   //Updates every 100th of second while a competitor is running 
@@ -46,7 +50,7 @@ private static int delay = 10 ;
 		
 		ActionListener task = new ActionListener (){
 			public void actionPerformed (ActionEvent e){
-				//UpdateR();
+				m.repaintRP();
 			}
 		};
 		timer = new Timer(delay,task);
@@ -87,17 +91,13 @@ private static int delay = 10 ;
 	      
 		}
 
-	
+	System.exit(1);
 		
 	}
 	
-     // For GUI updates. Updates the "Queue" panel when {start,num,set,clr} is called
-	//                   Updates the "Running" panel when {finish,dnf,cancel,start} is called only if timer is not running
-   //                    Updates the "Finished" panel when {finish,dnf,cancel} is called 
-	
-	
-	
-
+     // GUI updates. Updates the "Queue" panel when {start,num,set,clr} is called
+	//               Updates the "Running" panel when {finish,dnf,cancel,start} is called only if timer is not running
+   //                Updates the "Finished" panel when {finish,dnf,cancel} is called 
 	
 	
 	
@@ -115,25 +115,25 @@ private static int delay = 10 ;
 			else if(strAr[0].equals("START")){
 				ChronoTimer.start();
 				if (!timer.isRunning()) timer.start();
-				//updateQ();
+				m.repaintQP();
 			}
 			else if(strAr[0].equals("FIN")){
 				ChronoTimer.finish();
 				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
-				//updateR();
-				//updateF();
+				m.repaintRP();
+				m.repaintFP();
 			}
 			else if(strAr[0].equals("DNF")){
 				ChronoTimer.dnf();
 				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
-				//updateR();
-				//updateF();
+				m.repaintRP();
+				m.repaintFP();
 			}
 			else if(strAr[0].equals("CANCEL")){
 				ChronoTimer.cancel();
 				if (ChronoTimer.toFinish.isEmpty()) timer.stop();
-				//updateR();
-				//updateF();
+				m.repaintRP();
+				m.repaintFP();
 			}
 			else if(strAr[0].equals("PRINT"))
 				ChronoTimer.print();
@@ -153,17 +153,17 @@ private static int delay = 10 ;
 				ChronoTimer.toggleChannel(Integer.parseInt(strAr[1]));
 			else if(strAr[0].equals("NUM")){
 			    ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
-			    //updateQ();
+			    m.repaintQP();
 			}
 			else if(strAr[0].equals("TIME"))
 				Time.setStartTime(Time.fromString(strAr[1]));
 			else if (strAr[0].equals("TRIG")){
 				ChronoTimer.TriggerChannel(Integer.parseInt(strAr[1]));
-				if (!timer.isRunning()) timer.start(); //updateQ();}                      // in this case it is a start trigger
+				if (!timer.isRunning()) {timer.start(); m.repaintQP();}                      // in this case it is a start trigger
 				else {                                                                    // in this case it is a finish trigger
 					if (ChronoTimer.toFinish.isEmpty()) timer.stop();
-					//updateR();
-					//updateF(); 
+					m.repaintRP();
+					m.repaintFP(); 
 				}                                                
 			}
 			else
