@@ -79,17 +79,21 @@ public class ChronoTimer {
 
 	public static void armChannel(int index)
 	{
+		if(power){
 		if(index>channels.length) throw new IllegalArgumentException (channels.length + " Channels");
 		if(channels[index-1] == null) throw new IllegalArgumentException ("Channel not initialized" );
 		channels[index-1].arm();
+		}
 
 	}
 
 	public static void disarmChannel(int index)
 	{
+		if(power){
 		if(index>channels.length) throw new IllegalArgumentException (channels.length + " Channels");
 		if(channels[index-1] == null) throw new IllegalArgumentException ("Channel not initialized");
 		channels[index-1].disArm();
+		}
 	}
 
 	/**Disarms all the channels
@@ -109,6 +113,7 @@ public class ChronoTimer {
 	}
 	
 	public static void TriggerChannel (int index){
+		if(!power) throw new IllegalStateException("Timer is OFF");
 		channels[index-1].channelTrigger();
 	}
 	/**
@@ -116,7 +121,9 @@ public class ChronoTimer {
 	 * @param index represents the channel
 	 */
 	public static void toggleChannel (int index){
+		if (power){
 		channels[index - 1].toggle();
+		}
 	}
 
 
