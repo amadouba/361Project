@@ -4,18 +4,19 @@ import java.util.*;
 public class ChronoTimer {
 
 	protected static boolean power;   //true = on, false = off
-	private static Channel [] channels = {new Channel(1), new Channel(2)};  //2 channels for first sprint, initialized to 8 disarmed channels	
+	protected static Channel [] channels =  new Channel [8];  //2 channels for first sprint, initialized to 8 disarmed channels	
 	protected static ArrayList<Competitor> toStart = new ArrayList<Competitor>();  //the racers who have not yet started
-	protected static Queue<Competitor> toFinish  = new LinkedList<Competitor>();   //the racers who have started but not finished yet
+	//protected static  Queue<Competitor> toFinish  = new LinkedList<Competitor>();   //the racers who have started but not finished yet
+	protected static  List <Queue<Competitor>> toFinish  = new  ArrayList <Queue<Competitor> >();   //the racers who have started but not finished yet
 	protected static ArrayList<Competitor> completedRacers = new ArrayList<Competitor>();   //racers who have finished   
 	//private static Time time;  //used for recording the system time at any given moment in time
 	protected static EventInterface typeEvent  = new IndEvent();
 	public static FileOutputStream eventlog ;   
 	public static String logStr [] = new String [50] ;  //  50 strings (event logs) for 50 runs
-	private static int run = 1 ;  // default run number
+	private static int run  = 1 ;  // default run number
 	private static int [] numbers ;    // this field holds the num of the competitors that have been 
 	
-	
+		
 	
 	public static void powerOn()
 	{
@@ -43,8 +44,7 @@ public class ChronoTimer {
 	public static void finish() {
 		// TODO Auto-generated method stub
 		if(!power) throw new IllegalStateException("Timer is OFF");
-		if(toFinish.peek() == null) throw new IllegalStateException("No competitor");
-
+		
 		numbers = typeEvent.fn();
 		log (numbers, "FINISH" , Time.getCurrentTime() ) ;
 
@@ -58,7 +58,17 @@ public class ChronoTimer {
 			toStart.clear();
 			toFinish.clear();
 			completedRacers.clear();
+			
 			disarmAll();
+		}
+	}
+	               /** Handles types of events */ //for now only individual 
+	public static void changeEvent (String s){
+		switch (s){
+			case "IND": typeEvent = new IndEvent (); break ;
+			case "PARIND": typeEvent = new ParIndEvent (); break ;
+			case "PARGRP": typeEvent = new IndEvent (); break ;
+			case "GRP": typeEvent = new IndEvent() ; break ;
 		}
 	}
 /**
@@ -73,7 +83,7 @@ public class ChronoTimer {
 	}
 	
 	public static boolean isArmed(int i){
-		return channels[i-1].isArmed();
+		return channels[i-1] == null ? false : channels[i-1].isArmed();
 	}
 	
 
@@ -114,7 +124,7 @@ public class ChronoTimer {
 	
 	public static void TriggerChannel (int index){
 		if(!power) throw new IllegalStateException("Timer is OFF");
-		channels[index-1].channelTrigger();
+		typeEvent.TriggerCh(index);
 	}
 	/**
 	 * Switch the state of a channel from armed/disarmed to disarmed/armed
@@ -122,7 +132,8 @@ public class ChronoTimer {
 	 */
 	public static void toggleChannel (int index){
 		if (power){
-		channels[index - 1].toggle();
+			if (channels[index - 1] != null)
+		    channels[index - 1].toggle();
 		}
 	}
 
@@ -151,13 +162,9 @@ public class ChronoTimer {
 	public static void dnf()
 	{
 		if(!power) throw new IllegalStateException ("Timer is OFF") ;
-		if(toFinish.peek() == null) throw new IllegalStateException ("No competitor running") ;
 
-		//completedRacers.add(toFinish.remove().setFinishTime(-1));
-		Competitor c = toFinish.remove();
-		c.setFinishTime(Double.NaN); //maybe add "did not finish" variable in competitor? TODO TODO TODO
-		completedRacers.add(c);
-		int[] b = {c.getNumber()};
+		
+		int[] b = typeEvent.dnfinish();
 		log (b, "CANCEL", Time.getCurrentTime()) ;
 	}
 
@@ -165,16 +172,11 @@ public class ChronoTimer {
 	public static void cancel()
 	{
 		if(!power) throw new IllegalStateException("Timer is OFF") ;
-		if(toFinish.peek() == null) throw new IllegalStateException("No competitor running") ;
-
-		//toStart.set(0,toFinish.remove().setStartTime(0));
-		Competitor c = toFinish.remove();   
-		c.setStartTime(0.0);  //clear the start time
-		toStart.set(0, c);   //adds the canceled racer back to the head of toStart so they can redo the start.
-		int[] b = {c.getNumber()};
+		
+		int[] b = typeEvent.cancl();
 		log (b, "CANCEL", Time.getCurrentTime()) ;
 	}
-
+/**
 	public Competitor getCompetitor(int bibNumber)
 	{
 		for(Competitor c : toStart)
@@ -231,9 +233,9 @@ public class ChronoTimer {
 		for (Competitor c : completedRacers) {
 			//System.out.println(c.getNumber() + ": " + c.getStartTime());
 			if(!c.isDNF())
-				System.out.println("1 \t" + c.getNumber() + "\t" + String.format("%.2f", c.calculateTotalTime()));
+				System.out.println(run + "\t" + c.getNumber() + "\t" + String.format("%.2f", c.calculateTotalTime()));
 			else
-				System.out.println("1 \t" + c.getNumber() + "\t" + "DNF");
+				System.out.println(run + "\t" + c.getNumber() + "\t" + "DNF");
 			
 			int[] a = {c.getNumber()};
 			log(a, "ELAPSED", c.calculateTotalTime()) ;			
@@ -241,12 +243,12 @@ public class ChronoTimer {
 
 	}
 	
-	public static void export (){
+	public static void export ( int index){
 		try {
-			eventlog = new FileOutputStream ("RUN " + run + ".xml");
+			eventlog = new FileOutputStream ("RUN " + index + ".xml");
 		DataOutputStream out = new DataOutputStream(eventlog);
-		for (String s : logStr)
-			out.writeBytes(s);
+		//for (String s : logStr)
+			out.writeBytes(logStr [index - 1]);
 		}catch (IOException e){
 			log (Time.getCurrentTime(), "Input Output Exception when exporting") ;
 		}

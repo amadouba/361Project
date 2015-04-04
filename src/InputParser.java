@@ -46,8 +46,7 @@ public class InputParser extends ChronoTimerGUI {
 			}
 			else if(strAr[0].equals("PRINT"))
 				ChronoTimer.print();
-			else if(strAr[0].equals("EXPORT"))
-				ChronoTimer.export();
+			
 			else if(strAr[0].equals("NEWRUN"))
 				ChronoTimer.newRun();
 			else if(strAr[0].equals("ENDRUN"))
@@ -66,6 +65,10 @@ public class InputParser extends ChronoTimerGUI {
 			    ChronoTimer.addCompetitor(new Competitor(Integer.parseInt(strAr[1])));
 			    repaintQP();
 			}
+			else if(strAr[0].equals("EXPORT"))
+				ChronoTimer.export(Integer.parseInt(strAr[1]));
+			else if(strAr[0].equals("EVENT"))
+				ChronoTimer.changeEvent(strAr[1]);
 			else if(strAr[0].equals("TIME"))
 				Time.setStartTime(Time.fromString(strAr[1]));
 			else if (strAr[0].equals("TRIG")){

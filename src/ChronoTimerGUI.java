@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ListIterator;
+import java.util.Queue;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,6 +26,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	/**
 	 * 
 	 */
+
 	private static final long serialVersionUID = 1L;
 	public class FinishPanel extends JPanel {
 		JLabel jl = new JLabel();
@@ -71,11 +74,16 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		protected void paintComponent(Graphics g){
 			super.paintComponent(g);
 			s = "<html><pre>Running:  " ;
-			for (Competitor c : ChronoTimer.toFinish){
+			
+			itr = ChronoTimer.toFinish.listIterator () ;
+			while (itr.hasNext()){
+				for (Competitor c : itr.next()){
 				String rTime = Time.toString(c.calculateElapsedTime()) ;
 				int number = c.getNumber();
 				s += "<tr>" + number + "        " + rTime + "  R" + "</tr><br>";
 			}
+			}
+			
 			jl.setText(s + "</pre></html>" );
 		}
 	}
@@ -110,7 +118,8 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	static QueuePanel  qP ;
 	static RunningPanel rP ;
 	static FinishPanel fP;
-	private JButton addRacer;
+	private JButton addRacer, create;
+	private JComboBox<String> raceTypes ;
 	private static JButton btnPwr ;
 	private final JTextField  racerNum ;
 	protected static  Timer timer ;
@@ -118,6 +127,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	static JButton[] fnchnlButtons  ;
 	static JButton[] strtchnlButtons ;
 	static Color green =  new Color(34,139, 34) ;
+	ListIterator<Queue<Competitor>> itr;
+
+
    
 	public static void main(String[] args){
 
@@ -187,37 +199,40 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		
 		labelPanel.add(new JLabel("Start"));
 		labelPanel.add(new JLabel("Finish"));
-		strtchnlButtons = new JButton[]{new JButton()};
-		strtchnlButtons[0].setText("1");
-		strtchnlButtons[0].setActionCommand("TOGGLE 1");
-		strtchnlButtons[0].addActionListener(this);
+		strtchnlButtons = new JButton[4];
+		for (int i = 0 ; i < strtchnlButtons.length ; i++){
+			String s = Integer.toString(2*i +1) ;
+			strtchnlButtons[i] = new JButton ();
+			strtchnlButtons[i].setText(s);
+			strtchnlButtons[i].setActionCommand("TOGGLE " + s);
+			strtchnlButtons[i].addActionListener(this);
+		}
 		
 		
-		fnchnlButtons = new JButton[]{new JButton()};
-		fnchnlButtons[0].setText("2");
-		fnchnlButtons[0].setActionCommand("TOGGLE 2");
-		fnchnlButtons[0].addActionListener(this);
+		
+		fnchnlButtons = new JButton[4];
+		for (int i = 0 ; i < fnchnlButtons.length ; i++){
+			String s = Integer.toString(2*i +2) ;
+			fnchnlButtons[i]= new JButton ();
+			fnchnlButtons[i].setText(s);
+			fnchnlButtons[i].setActionCommand("TOGGLE " + s);
+			fnchnlButtons[i].addActionListener(this);
+		}
 		
 		
 		channelPanel.add(labelPanel, BorderLayout.LINE_START);
 		channelPanel.add(btnPanel, BorderLayout.CENTER);
-		btnPanel.add(startChannels); startChannels.add(strtchnlButtons[0]);
-		btnPanel.add(finishChannels); finishChannels.add(fnchnlButtons[0]);
+		btnPanel.add(startChannels); for (JButton b : strtchnlButtons ) startChannels.add(b);
+		btnPanel.add(finishChannels); for (JButton b : fnchnlButtons ) finishChannels.add(b);
 		
 		
 		/** For the input panel */
 		String [] raceType = new String[]{"IND", "PARIND", "GRP", "PARGRP"};
-		JComboBox<String> raceTypes = new JComboBox<>(raceType);
-		JButton create = new JButton("Set");
-		create.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				// will implement this when Chronotimer is finished.
-				
-			}
-		});
+		 raceTypes = new JComboBox<>(raceType);
+		create = new JButton("Set");
+		create.addActionListener(this);
+		
+		
 		racerNum = new JTextField("Enter Racer Bib #");
 		addRacer = new JButton("Add");
 		addRacer.addActionListener(this);		
@@ -306,11 +321,26 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		fP.repaint();
 	}
 	static void repaintCP(){
-		 btnPwr.setForeground(ChronoTimer.getPower() ? Color.black : green); 
+		if (ChronoTimer.getPower() )
+			btnPwr.setForeground(green);
+		else{
+			btnPwr.setForeground(Color.black );
+			for (int i = 0 ; i < strtchnlButtons.length ; i ++){
+				fnchnlButtons[i].setForeground (Color.black );
+				strtchnlButtons[i].setForeground (Color.black );
+			}
+					
+
+		}
+		 
 	}
 	static void repaintChP(){
-		strtchnlButtons [0].setForeground(ChronoTimer.isArmed(1) ? green : Color.black ); 
-	    fnchnlButtons [0].setForeground(ChronoTimer.isArmed(2) ? green : Color.black ); 
+		int i = 1, j = 0 ;
+		for (JButton b : strtchnlButtons ){
+		b.setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); 
+		
+		fnchnlButtons[j++].setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); 
+		}
 	    
 	}
 
@@ -321,11 +351,12 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		String s = e.getActionCommand();
 		try{
-		if (s == "Power") repaintCP();
 		if (e.getSource() == addRacer ) InputParser.parseInput("NUM "+Integer.parseInt(racerNum.getText()));
+		else if (e.getSource() == create ) InputParser.parseInput("EVENT " + (String) raceTypes.getSelectedItem());
 		else
 		InputParser.parseInput(s);
-					
+		if (s == "Power") repaintCP();    
+			
 		
 	}catch(Exception ex){
 		racerNum.setText("ERR");

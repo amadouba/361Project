@@ -36,7 +36,8 @@ private static double ts ;
   		
 		
 	
-		
+		//Builds GUI 
+		 new ChronoTimerGUI ();
 		
 	
 	// Scanner Loop for input
@@ -46,7 +47,7 @@ private static double ts ;
 	    	if (latency > 0) { latency = (latency >= 2000 ) ? 1000 :  latency +200 ; Thread.sleep(latency);  }    // when simulating with a file as input
 			ts = Time.getCurrentTime();
 			System.out.println(Time.toString(ts)+ "\t" + s);
-			s = stdIn.nextLine()  ;
+			if (stdIn.hasNextLine() ) s = stdIn.nextLine()  ;
 			
 			if(s == null || s.equals("EXIT")) {
 				loop = false;
@@ -56,7 +57,6 @@ private static double ts ;
 				ChronoTimer.log(ts, s);
 
 				InputParser.parseInput(s);
-				
 			}
 			
 			// Throws Exception and gets back in the loop
@@ -67,6 +67,7 @@ private static double ts ;
 		   ChronoTimer.log(Time.getCurrentTime(), "Illegal Argument Exception " + e.getMessage());
 			continue c ;
 		}catch (Exception e){
+		   
 		   ChronoTimer.log(Time.getCurrentTime(), "Exception " + e.getMessage());
 			continue c ;
 		}
