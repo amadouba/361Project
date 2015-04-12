@@ -233,7 +233,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		create.addActionListener(this);
 		
 		
-		racerNum = new JTextField("Enter Racer Bib #");
+		racerNum = new JTextField("Enter Racer Bib #");///
 		addRacer = new JButton("Add");
 		addRacer.addActionListener(this);		
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));

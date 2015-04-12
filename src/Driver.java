@@ -59,7 +59,7 @@ private static double ts ;
 				InputParser.parseInput(s);
 			}
 			
-			// Throws Exception and gets back in the loop
+			// Throws Exception and gets back in the loop///
 	   }catch (IllegalStateException e){
 		   ChronoTimer.log(Time.getCurrentTime(), "Illegal State Exception " + e.getMessage());
 			continue c ;

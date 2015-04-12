@@ -71,7 +71,7 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 				
 				Competitor a [] = {c}  ;
 				return  a;
-	}
+	}///
 	
 	
 }

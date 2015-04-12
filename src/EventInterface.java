@@ -13,7 +13,7 @@ public interface EventInterface   {
 	Competitor [] dnfinish ();
 
 	//void TriggerChannel(int index);
-	
+	///
 	
 	
 	

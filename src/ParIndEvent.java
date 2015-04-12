@@ -28,7 +28,7 @@ IndEvent n4 ;
 	public Competitor[] fn() {
 		// TODO Auto-generated method stub
 		switch (ch){
-		  case 2 :  return n1.fn(); 
+		  case 2 :  return n1.fn(); ///
 		  case 4 : return n2.fn() ;
 		  case 6 : return n3.fn();
 		  case 8: return n4.fn() ;

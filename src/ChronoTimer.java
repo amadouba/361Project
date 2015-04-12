@@ -165,7 +165,7 @@ public class ChronoTimer {
 /**Marks the next running competitor as did not finish
  * 
  */
-	public static void dnf()
+	public static void dnf()////
 	{
 		if(!power) throw new IllegalStateException ("Timer is OFF") ;
 

@@ -91,7 +91,7 @@ public class InputParser extends ChronoTimerGUI {
 				throw new IllegalArgumentException ("ILLEGAL COMMAND");
 		}
 		else
-			throw new IllegalArgumentException("ILLEGAL COMMAND");
+			throw new IllegalArgumentException("ILLEGAL COMMAND");///
 
 	}
 

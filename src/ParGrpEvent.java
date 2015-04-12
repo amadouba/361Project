@@ -27,7 +27,7 @@ public class ParGrpEvent implements EventInterface {
 
 	@Override
 	public Competitor[] dnfinish() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub///
 		return null;
 	}
 

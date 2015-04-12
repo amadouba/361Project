@@ -15,7 +15,7 @@ public class Competitor {
 
 	public int getNumber(){
 		return bib;
-	}
+	}///
 	
 	public int getRunNumber(){
 		return runNumber;
