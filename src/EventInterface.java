@@ -2,15 +2,15 @@
 public interface EventInterface   {
 
 	
-	public int [] st();
+	public Competitor [] st();
 	
-	public int [] fn();
+	public Competitor [] fn();
 
 	void TriggerCh(int index);
 	
-	int [] cancl ();
+	Competitor [] cancl ();
 	
-	int [] dnfinish ();
+	Competitor [] dnfinish ();
 
 	//void TriggerChannel(int index);
 	

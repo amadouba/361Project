@@ -3,17 +3,28 @@ public class Competitor {
 	private int bib;
 	private double startTime;
 	private double finishTime;
+	private int runNumber;
 
 
 	public Competitor(int n){
 		bib = n;
 		startTime =  Double.NaN;
 		finishTime =  Double.NaN;
+		runNumber = 0;
 	}
 
 	public int getNumber(){
 		return bib;
 	}
+	
+	public int getRunNumber(){
+		return runNumber;
+	}
+	
+	public void setRunNumber(int i){
+		runNumber = i;
+	}
+	
 
 	public boolean isDNF(){
 		return Double.isNaN(finishTime);

@@ -13,7 +13,7 @@ IndEvent n4 ;
 			n4 = new IndEvent (4);
 	} 
 	@Override
-	public int[] st() {
+	public Competitor[] st() {
 		// TODO Auto-generated method stub
 		switch (ch){
 		  case 1 :  return n1.st(); 
@@ -25,7 +25,7 @@ IndEvent n4 ;
 	}
 
 	@Override
-	public int[] fn() {
+	public Competitor[] fn() {
 		// TODO Auto-generated method stub
 		switch (ch){
 		  case 2 :  return n1.fn(); 
@@ -44,12 +44,12 @@ IndEvent n4 ;
 		channels[index-1].channelTrigger();
 	}
 	@Override
-	public int[] cancl() {
+	public Competitor[] cancl() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
-	public int[] dnfinish() {
+	public Competitor[] dnfinish() {
 		// TODO Auto-generated method stub
 		return null;
 	}

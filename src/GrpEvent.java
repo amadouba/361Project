@@ -2,13 +2,13 @@
 public class GrpEvent implements EventInterface {
 
 	@Override
-	public int[] st() {
+	public Competitor[] st() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int[] fn() {
+	public Competitor[] fn() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -20,13 +20,13 @@ public class GrpEvent implements EventInterface {
 	}
 
 	@Override
-	public int[] cancl() {
+	public Competitor[] cancl() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int[] dnfinish() {
+	public Competitor[] dnfinish() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -14,7 +14,7 @@ public class ChronoTimer {
 	public static FileOutputStream eventlog ;   
 	public static String logStr [] = new String [50] ;  //  50 strings (event logs) for 50 runs
 	private static int run  = 1 ;  // default run number
-	private static int [] numbers ;    // this field holds the num of the competitors that have been 
+	private static Competitor [] numbers ;    // this field holds the num of the competitors that have been 
 	
 		
 	
@@ -33,12 +33,18 @@ public class ChronoTimer {
 		reset();
 		power = false ;
 	}
+
 	
 	public static void start() {
 		if(!power) throw new IllegalStateException("Timer is OFF");
 		if(toStart.isEmpty()) throw new IllegalStateException("NO Competitor in queue");
-        
+
 		numbers = typeEvent.st();
+		for(Competitor c : numbers)
+		{
+			c.setRunNumber(run);
+		}
+		
 		log (numbers, "START" , Time.getCurrentTime() ) ;
 	}
 	public static void finish() {
@@ -164,7 +170,7 @@ public class ChronoTimer {
 		if(!power) throw new IllegalStateException ("Timer is OFF") ;
 
 		
-		int[] b = typeEvent.dnfinish();
+		Competitor[] b = typeEvent.dnfinish();
 		log (b, "CANCEL", Time.getCurrentTime()) ;
 	}
 
@@ -173,7 +179,7 @@ public class ChronoTimer {
 	{
 		if(!power) throw new IllegalStateException("Timer is OFF") ;
 		
-		int[] b = typeEvent.cancl();
+		Competitor[] b = typeEvent.cancl();
 		log (b, "CANCEL", Time.getCurrentTime()) ;
 	}
 /**
@@ -233,11 +239,11 @@ public class ChronoTimer {
 		for (Competitor c : completedRacers) {
 			//System.out.println(c.getNumber() + ": " + c.getStartTime());
 			if(!c.isDNF())
-				System.out.println(run + "\t" + c.getNumber() + "\t" + String.format("%.2f", c.calculateTotalTime()));
+				System.out.println(c.getRunNumber() + "\t" + c.getNumber() + "\t" + String.format("%.2f", c.calculateTotalTime()));
 			else
-				System.out.println(run + "\t" + c.getNumber() + "\t" + "DNF");
+				System.out.println(c.getRunNumber() + "\t" + c.getNumber() + "\t" + "DNF");
 			
-			int[] a = {c.getNumber()};
+			Competitor a [] = {c}  ;
 			log(a, "ELAPSED", c.calculateTotalTime()) ;			
 		}
 
@@ -259,9 +265,9 @@ public class ChronoTimer {
 	public static void log (double time, String event){
 		logStr [run-1] += Time.toString(time) + "\t" + event +  System.getProperty("line.separator")  ;
 	}
-	public static void log (int [] number, String event, double time){
-		for (int n : number)
-		logStr [run-1] += n + "\t" + event + " \t"+ (time == 0 ? "DNF" : Time.toString(time) ) +  System.getProperty("line.separator")  ;
+	public static void log (Competitor [] number, String event, double time){
+		for (Competitor n : number)
+		logStr [run-1] += n.getNumber() + "\t" + event + " \t"+ (time == 0 ? "DNF" : Time.toString(time) ) +  System.getProperty("line.separator")  ;
 	}
 	
 	

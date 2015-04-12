@@ -17,21 +17,21 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		
 	}
 	
-	public int [] st()  //start, finish, dnf, and cancel are either called manually (in driver/test class)
+	public Competitor[] st()  //start, finish, dnf, and cancel are either called manually (in driver/test class)
 	{														        // or called in trigger() (in Channel)
 		
 		Competitor c = toStart.remove(0); 
 		c.setStartTime(Time.getCurrentTime());
 		finish.add(c);
 		
-		int a [] = {c.getNumber()}  ;
+		Competitor a [] = {c}  ;
 		return  a;
 
 	}
 	/**Takes the first competitor to have started the run and finishes it
 	 * @PRECONDITION system is on and there are competitors running
 	 */
-	public int[] fn()
+	public Competitor[] fn()
 	{
 		if(finish.peek() == null) throw new IllegalStateException ("No competitor running") ;
 
@@ -39,7 +39,7 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		c.setFinishTime(Time.getCurrentTime());
 		completedRacers.add(c);
 		
-		int a [] = {c.getNumber()}  ;
+		Competitor a [] = {c}  ;
 		return  a;
 
 	}
@@ -50,7 +50,7 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		
 	}
 	@Override
-	public int[] cancl() {
+	public Competitor[] cancl() {
 		// TODO Auto-generated method stub
 		if(finish.peek() == null) throw new IllegalStateException("No competitor running") ;
 
@@ -59,17 +59,17 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		c.setStartTime(0.0);  //clear the start time
 		toStart.add(0, c);   //adds the canceled racer back to the head of toStart so they can redo the start.
 		
-		int a [] = {c.getNumber()}  ;
+		Competitor a [] = {c}  ;
 		return  a;
 	}
 	@Override
-	public int [] dnfinish() {
+	public Competitor[] dnfinish() {
 		// TODO Auto-generated method stub
 				Competitor c = finish.remove();
 				c.setFinishTime(Double.NaN); //maybe add "did not finish" variable in competitor? TODO TODO TODO
 				completedRacers.add(c);
 				
-				int a [] = {c.getNumber()}  ;
+				Competitor a [] = {c}  ;
 				return  a;
 	}
 	
