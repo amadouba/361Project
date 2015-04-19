@@ -12,6 +12,8 @@ public interface EventInterface   {
 	
 	Competitor [] dnfinish ();
 
+	public void swap();
+
 	//void TriggerChannel(int index);
 	///
 	

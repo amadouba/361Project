@@ -1,6 +1,14 @@
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+//import cs.uwm.edu.Participant;
+
 public class ChronoTimer {
 
 	protected static boolean power;   //true = on, false = off
@@ -22,7 +30,7 @@ public class ChronoTimer {
 	public static void powerOn()
 	{
 		power = true ;
-		//logStr [run-1] = "'[" ;
+		if (run == 1 ) logStr [run-1] = "[" ;
 		int i = 0 ;
 		for (;i < 8 ; i++)
 			channels[i] = new Channel (i+1);
@@ -43,6 +51,7 @@ public class ChronoTimer {
 	public static void start() {
 		if(!power) throw new IllegalStateException("Timer is OFF");
 		if(toStart.isEmpty()) throw new IllegalStateException("NO Competitor in queue");
+        if(channels[0].isArmed() == false)  throw new IllegalStateException("Not enough channels connected");
 
 		numbers = typeEvent.st();
 		for(Competitor c : numbers)
@@ -55,6 +64,7 @@ public class ChronoTimer {
 	public static void finish() {
 		// TODO Auto-generated method stub
 		if(!power) throw new IllegalStateException("Timer is OFF");
+		if(channels[1].isArmed() == false)  throw new IllegalStateException("Not enough channels connected");
 		
 		numbers = typeEvent.fn();
 		log (numbers ) ;
@@ -75,7 +85,7 @@ public class ChronoTimer {
 	}
 	               /** Handles types of events */ //for now only individual 
 	public static void changeEvent (String s){
-		if (!toFinish.isEmpty() ) throw new IllegalStateException ("End Run first before changing event");
+		//if (!toFinish.isEmpty() ) throw new IllegalStateException ("End Run first before changing event");
 		switch (s){
 			case "IND": typeEvent = new IndEvent (); break ;
 			case "PARIND": typeEvent = new ParIndEvent (); break ;
@@ -222,6 +232,7 @@ public class ChronoTimer {
 		if (logStr[run ] == null && (!toStart.isEmpty() || !toFinish.isEmpty() || !completedRacers.isEmpty())  ) throw new IllegalStateException("End a run first");  // run has not ended because otherwise the next string log would be open
 			
 			++run ;
+			if (!logStr[run-1].equalsIgnoreCase("[")) logStr[run-1] = "[" ;  
 			
 	}
 	
@@ -235,7 +246,8 @@ public class ChronoTimer {
 	public static void endRun(){
 		if (logStr[run ] != null) throw new IllegalStateException("Open a new run first");               // run ended already because otherwise next run would be null
 			
-			logStr[run] = "'[";                                    // when we end a run we open a new string log for the next run
+			if (!logStr[run -1].endsWith("]"))logStr[run -1] += "]" ;
+			logStr[run] = "[";                                    // when we end a run we open a new string log for the next run
 	}
 	
 	
@@ -256,16 +268,48 @@ public class ChronoTimer {
 
 	}
 	
+	public static void swAp(){
+		if (toFinish.isEmpty()) throw new IllegalStateException("No Competitor running");
+		typeEvent.swap();
+	}
+	
 	public static void export ( int index){
 		try {
 			eventlog = new FileOutputStream ("RUN " + index + ".xml");
-		DataOutputStream out = new DataOutputStream(eventlog);
-		//for (String s : logStr)
-		logStr [index -1] += "]'" ;
-			out.writeBytes(logStr [index - 1]);
+			DataOutputStream out = new DataOutputStream(eventlog);
+			//for (String s : logStr)
+			String str = logStr [index -1] ;
+			str.replaceAll("]", "");
+			str += "]" ;
+			out.writeBytes(str);
+			ArrayList<Competitor> ps = new ArrayList<Competitor>();
+			Gson g = new Gson();
+
+			for (Competitor c : completedRacers){
+				ps.add(c);
+			}
+			str = g.toJson(ps) ;
+			URL u = new URL ("http://jamschrono.appspot.com/lab8");
+			HttpURLConnection conn = (HttpURLConnection)u.openConnection();
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			
+			DataOutputStream o = new DataOutputStream(conn.getOutputStream());
+			String message = "participants=" + str ;
+			
+			o.writeBytes(message);
+			o.flush();
+			o.close();
+			
+			new InputStreamReader(conn.getInputStream());
+			
+			
 		}catch (IOException e){
 			//log (Time.getCurrentTime(), "Input Output Exception when exporting") ;
+			
 			System.out.println( "Input Output Exception when exporting") ;
+			
 
 		}
 		
@@ -277,9 +321,9 @@ public class ChronoTimer {
 	}
 	public static void log (Competitor [] number){
 		String o= "," ;
-		if (logStr [run-1].equalsIgnoreCase("'[")) o = "";
+		if (logStr [run-1].equalsIgnoreCase("[")) o = "";
 		for (Competitor n : number)
-		logStr [run-1] += o+"{\"BIB\":\"" +n.getNumber() + "\"" + ",\"ELAPSED\":\""+ (n.isDNF() ? "DNF\"}" : String.format("%.2f", n.calculateTotalTime())+ "\"}" ) ;
+		logStr [run-1] += o+"{\"bib\":\"" +n.getNumber() + "\"" +",\"runNumber\":\""+ n.getRunNumber()+ ",\"totalTime\":\""+ (n.isDNF() ? "DNF\"}" : String.format("%.2f", n.calculateTotalTime())+ "\"}" ) ;
 	
 	}
 

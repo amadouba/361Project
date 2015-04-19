@@ -12,7 +12,8 @@ IndEvent n2 ;
 	} 
 	@Override
 	public Competitor[] st() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub]
+		
 		switch (ch){
 		  case 1 :  return n1.st(); 
 		  case 3 : return n2.st() ;
@@ -32,6 +33,8 @@ IndEvent n2 ;
 		return n1.fn();
 	}
 	
+	 public void swap(){};
+	 
 
 	@Override
 	public void TriggerCh(int index) {

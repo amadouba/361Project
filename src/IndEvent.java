@@ -36,6 +36,14 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		return  a;
 
 	}
+	
+	 public void swap(){
+		    Competitor a = finish.remove(0);
+		    Competitor b = finish.remove(1);
+		    finish.add(0,b);
+		    finish.add(1,a);
+		}
+	 
 	@Override
 	public void TriggerCh(int index) {
 		// TODO Auto-generated method stub

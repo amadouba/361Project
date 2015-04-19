@@ -9,7 +9,7 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub
-		if(! toFinish.isEmpty()) throw new IllegalStateException ("Grp Run must end first");
+		if(! finish.isEmpty()) throw new IllegalStateException ("Grp Run must end first");
 		Competitor a [] =  new Competitor [toStart.size()]  ;
 		int i = 0 ;
 		double time = Time.getCurrentTime() ;
@@ -46,6 +46,13 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 		channels[index -1 ].channelTrigger();
 	}
 
+	 public void swap(){
+		    Competitor a = finish.remove(0);
+		    Competitor b = finish.remove(1);
+		    finish.add(0,b);
+		    finish.add(1,a);
+		}
+	 
 	@Override
 	public Competitor[] cancl() {
 		// TODO Auto-generated method stub

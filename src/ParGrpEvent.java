@@ -85,6 +85,8 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 		return  c;
 	}
 
+	 public void swap(){}
+	 
 	@Override
 	public Competitor[] dnfinish() {
 		// TODO Auto-generated method stub///

@@ -19,6 +19,7 @@ public class InputParser extends ChronoTimerGUI {
 				ChronoTimer.powerOff();
 				repaintCP();
 			}
+			else if(strAr[0].equals("SWAP")) ChronoTimer.swAp();
 			else if(strAr[0].equals("Power"))
 				 if ( ChronoTimer.getPower() ) ChronoTimer.powerOff() ; else  ChronoTimer.powerOn() ;
 			else if(strAr[0].equals("START")){
