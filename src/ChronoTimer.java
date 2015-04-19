@@ -43,7 +43,7 @@ public class ChronoTimer {
 	public static void start() {
 		if(!power) throw new IllegalStateException("Timer is OFF");
 		if(toStart.isEmpty()) throw new IllegalStateException("NO Competitor in queue");
-
+        if(channels[0].isArmed() == false)  throw new IllegalStateException("Not enough channels connected");
 		numbers = typeEvent.st();
 		for(Competitor c : numbers)
 		{
@@ -55,6 +55,8 @@ public class ChronoTimer {
 	public static void finish() {
 		// TODO Auto-generated method stub
 		if(!power) throw new IllegalStateException("Timer is OFF");
+		if(channels[1].isArmed() == false)  throw new IllegalStateException("Not enough channels connected");
+		
 		
 		numbers = typeEvent.fn();
 		log (numbers ) ;
@@ -75,7 +77,7 @@ public class ChronoTimer {
 	}
 	               /** Handles types of events */ //for now only individual 
 	public static void changeEvent (String s){
-		if (!toFinish.isEmpty() ) throw new IllegalStateException ("End Run first before changing event");
+		//if (!toFinish.isEmpty() ) throw new IllegalStateException ("End Run first before changing event");
 		switch (s){
 			case "IND": typeEvent = new IndEvent (); break ;
 			case "PARIND": typeEvent = new ParIndEvent (); break ;
@@ -174,7 +176,7 @@ public class ChronoTimer {
 	public static void dnf()////
 	{
 		if(!power) throw new IllegalStateException ("Timer is OFF") ;
-
+		if(toFinish.isEmpty())  throw new IllegalStateException("No one is running");
 		
 		Competitor[] b = typeEvent.dnfinish();
 		log (b) ;

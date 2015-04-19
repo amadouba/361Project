@@ -17,7 +17,7 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub
-		if(! toFinish.isEmpty()) throw new IllegalStateException ("Grp Run must end first");
+		if(! finish.isEmpty()) throw new IllegalStateException ("Grp Run must end first");
 		Competitor a [] =  new Competitor [toStart.size()]  ;
 		int i = 0 ;
 		double time = Time.getCurrentTime() ;

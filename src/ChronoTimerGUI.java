@@ -193,15 +193,18 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
         /**For the Channel Panel*/ 
 		//which includes the label panel in the Border.East
 		  //and buttons panels in the Border.Center, subdivided in two rows start buttons (channels) up top and finish buttons (channels) down
-		JPanel labelPanel = new JPanel (new GridLayout(4,1,2, 2));
-		JPanel btnPanel = new JPanel(new GridLayout(4,4));
+		JPanel labelPanel = new JPanel (new GridLayout(4, 2));
+		JPanel btnPanel = new JPanel(new GridLayout(4,5, 2, 2));
 		
 		
 		
-		labelPanel.add(new JLabel("Enable Start Chnl:"));
-		labelPanel.add(new JLabel("Trigger Start Chnl:"));
-		labelPanel.add(new JLabel("Enable Finish Chnl:"));
-		labelPanel.add(new JLabel("Trigger Finish Chnl:"));
+		labelPanel.add(new JLabel("Enable Start Channel:"));
+		
+		labelPanel.add(new JLabel("Trigger Start Channel:"));
+		
+		labelPanel.add(new JLabel("Enable Finish Channel:"));
+		
+		labelPanel.add(new JLabel("Trigger Finish Channel:"));
 		
 	
 		
@@ -213,6 +216,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			buttons[i] = b;
 			btnPanel.add(b);
 		}
+		btnPanel.add(new JLabel(""));
+		btnPanel.add(new JLabel(""));
+		
 		for(int i=0; i<4; i++)
 		{
 			JButton b = new JButton("T");
@@ -221,6 +227,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			
 			btnPanel.add(b);
 		}
+		btnPanel.add(new JLabel(""));
+		btnPanel.add(new JLabel(""));
+		
 		for(int i=0; i<4; i++)
 		{
 			JButton b = new JButton(Integer.toString(2*i+2));
@@ -229,6 +238,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			buttons[i+4] = b;
 			btnPanel.add(b);
 		}
+		btnPanel.add(new JLabel(""));
+		btnPanel.add(new JLabel(""));
+		
 		for(int i=0; i<4; i++)
 		{
 			JButton b = new JButton("T");
@@ -237,8 +249,8 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			
 			btnPanel.add(b);
 		}
-		
-	
+		btnPanel.add(new JLabel(""));
+		btnPanel.add(new JLabel(""));
 		
 		channelPanel.add(labelPanel, BorderLayout.LINE_START);
 		channelPanel.add(btnPanel, BorderLayout.CENTER);
@@ -246,7 +258,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		
 		
 		/** For the input panel */
-		String [] raceType = new String[]{"Individual", "Parallel Individual", "Group", "Parallel Group"};
+		String [] raceType = new String[]{"IND", "PARIND", "GRP", "PARGRP"};
 		 raceTypes = new JComboBox<>(raceType);
 		create = new JButton("Set");
 		
@@ -367,7 +379,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			buttons[i].setForeground(ChronoTimer.isArmed(j+=2) ? green : Color.black );
 		}
 		
-		}
+	}
 	    
 	
 
@@ -377,6 +389,11 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String s = e.getActionCommand();
+		
+			
+			
+		
+		
 		try{
 		if (e.getSource() == addRacer ) InputParser.parseInput("NUM "+Integer.parseInt(racerNum.getText()));
 		else if (e.getSource() == create ) InputParser.parseInput("EVENT " + (String) raceTypes.getSelectedItem());
