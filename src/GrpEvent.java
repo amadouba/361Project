@@ -6,6 +6,14 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 	GrpEvent (){
 		toFinish.add(finish);
 	}
+    
+
+        public void swap(){
+	    Competitor a = finish.remove(0);
+	    Competitor b = finish.remove(1);
+	    finish.add(0,b);
+	    finish.add(1,a);
+	}
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub

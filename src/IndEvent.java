@@ -9,6 +9,14 @@ public class IndEvent   extends ChronoTimer  implements EventInterface{
 		toFinish.add(finish);
 	}
 	
+
+        public void swap(){
+	    Competitor a = finish.remove(0);
+	    Competitor b = finish.remove(1);
+	    finish.add(0,b);
+	    finish.add(1,a);
+	}
+
 	
 	public Competitor[] st()  //start, finish, dnf, and cancel are either called manually (in driver/test class)
 	{														        // or called in trigger() (in Channel)
