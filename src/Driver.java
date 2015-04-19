@@ -67,7 +67,7 @@ private static double ts ;
 		   ChronoTimer.log(Time.getCurrentTime(), "Illegal Argument Exception " + e.getMessage());
 			continue c ;
 		}catch (Exception e){
-		   
+		   e.toString() ;
 		   ChronoTimer.log(Time.getCurrentTime(), "Exception " + e.getMessage());
 			continue c ;
 		}

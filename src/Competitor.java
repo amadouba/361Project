@@ -4,12 +4,14 @@ public class Competitor {
 	private double startTime;
 	private double finishTime;
 	private int runNumber;
+	private double totalTime ;
 
 
 	public Competitor(int n){
 		bib = n;
 		startTime =  Double.NaN;
 		finishTime =  Double.NaN;
+		totalTime = Double.NaN;
 		runNumber = 0;
 	}
 
@@ -41,6 +43,7 @@ public class Competitor {
 	public void setFinishTime(double d){
 		if(Double.isNaN(startTime)) throw new IllegalStateException();
 		finishTime = d;
+		totalTime = Double.isNaN(finishTime) ? 0 :finishTime-startTime;
 	}
 	public double getFinishTime(){
 		if(Double.isNaN(finishTime)) throw new IllegalStateException();
@@ -51,7 +54,7 @@ public class Competitor {
 		if(Double.isNaN(finishTime))return 0;
 		else{
 			if(startTime<finishTime)
-				return finishTime-startTime;
+				return  finishTime-startTime;
 			else
 				return (finishTime+ 24*1200)-startTime;
 		}

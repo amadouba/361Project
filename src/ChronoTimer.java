@@ -7,13 +7,14 @@ public class ChronoTimer {
 	protected static Channel [] channels =  new Channel [8];  //2 channels for first sprint, initialized to 8 disarmed channels	
 	protected static ArrayList<Competitor> toStart = new ArrayList<Competitor>();  //the racers who have not yet started
 	//protected static  Queue<Competitor> toFinish  = new LinkedList<Competitor>();   //the racers who have started but not finished yet
-	protected static  List <Queue<Competitor>> toFinish  = new  ArrayList <Queue<Competitor> >();   //the racers who have started but not finished yet
+	protected static  List <ArrayList<Competitor>> toFinish  = new  ArrayList <ArrayList<Competitor> >();   //the racers who have started but not finished yet
 	protected static ArrayList<Competitor> completedRacers = new ArrayList<Competitor>();   //racers who have finished   
 	//private static Time time;  //used for recording the system time at any given moment in time
 	protected static EventInterface typeEvent  = new IndEvent();
 	public static FileOutputStream eventlog ;   
 	public static String logStr [] = new String [50] ;  //  50 strings (event logs) for 50 runs
 	private static int run  = 1 ;  // default run number
+	
 	private static Competitor [] numbers ;    // this field holds the num of the competitors that have been 
 	
 		
@@ -21,6 +22,10 @@ public class ChronoTimer {
 	public static void powerOn()
 	{
 		power = true ;
+		//logStr [run-1] = "'[" ;
+		int i = 0 ;
+		for (;i < 8 ; i++)
+			channels[i] = new Channel (i+1);
 		
 	}
 
@@ -30,7 +35,7 @@ public class ChronoTimer {
 	
 	public static void powerOff()
 	{
-		reset();
+		endRun();
 		power = false ;
 	}
 
@@ -45,14 +50,14 @@ public class ChronoTimer {
 			c.setRunNumber(run);
 		}
 		
-		log (numbers, "START" , Time.getCurrentTime() ) ;
+		//log (numbers, "START" , Time.getCurrentTime() ) ;
 	}
 	public static void finish() {
 		// TODO Auto-generated method stub
 		if(!power) throw new IllegalStateException("Timer is OFF");
 		
 		numbers = typeEvent.fn();
-		log (numbers, "FINISH" , Time.getCurrentTime() ) ;
+		log (numbers ) ;
 
 	}
 
@@ -70,11 +75,12 @@ public class ChronoTimer {
 	}
 	               /** Handles types of events */ //for now only individual 
 	public static void changeEvent (String s){
+		if (!toFinish.isEmpty() ) throw new IllegalStateException ("End Run first before changing event");
 		switch (s){
 			case "IND": typeEvent = new IndEvent (); break ;
 			case "PARIND": typeEvent = new ParIndEvent (); break ;
-			case "PARGRP": typeEvent = new IndEvent (); break ;
-			case "GRP": typeEvent = new IndEvent() ; break ;
+			case "PARGRP": typeEvent = new ParGrpEvent (); break ;
+			case "GRP": typeEvent = new GrpEvent() ; break ;
 		}
 	}
 /**
@@ -171,7 +177,7 @@ public class ChronoTimer {
 
 		
 		Competitor[] b = typeEvent.dnfinish();
-		log (b, "CANCEL", Time.getCurrentTime()) ;
+		log (b) ;
 	}
 
 	
@@ -180,7 +186,7 @@ public class ChronoTimer {
 		if(!power) throw new IllegalStateException("Timer is OFF") ;
 		
 		Competitor[] b = typeEvent.cancl();
-		log (b, "CANCEL", Time.getCurrentTime()) ;
+		//log (b, "CANCEL", Time.getCurrentTime()) ;
 	}
 /**
 	public Competitor getCompetitor(int bibNumber)
@@ -213,9 +219,10 @@ public class ChronoTimer {
 	 * 
 	 */
 	public static void newRun () {
-		if (logStr[run ] == null ) throw new IllegalStateException("End a run first");  // run has not ended because otherwise the next string log would be open
+		if (logStr[run ] == null && (!toStart.isEmpty() || !toFinish.isEmpty() || !completedRacers.isEmpty())  ) throw new IllegalStateException("End a run first");  // run has not ended because otherwise the next string log would be open
 			
 			++run ;
+			
 	}
 	
 	/** Ends the current run
@@ -228,7 +235,7 @@ public class ChronoTimer {
 	public static void endRun(){
 		if (logStr[run ] != null) throw new IllegalStateException("Open a new run first");               // run ended already because otherwise next run would be null
 			
-			logStr[run] = "";                                    // when we end a run we open a new string log for the next run
+			logStr[run] = "'[";                                    // when we end a run we open a new string log for the next run
 	}
 	
 	
@@ -244,7 +251,7 @@ public class ChronoTimer {
 				System.out.println(c.getRunNumber() + "\t" + c.getNumber() + "\t" + "DNF");
 			
 			Competitor a [] = {c}  ;
-			log(a, "ELAPSED", c.calculateTotalTime()) ;			
+					
 		}
 
 	}
@@ -254,22 +261,26 @@ public class ChronoTimer {
 			eventlog = new FileOutputStream ("RUN " + index + ".xml");
 		DataOutputStream out = new DataOutputStream(eventlog);
 		//for (String s : logStr)
+		logStr [index -1] += "]'" ;
 			out.writeBytes(logStr [index - 1]);
 		}catch (IOException e){
-			log (Time.getCurrentTime(), "Input Output Exception when exporting") ;
+			//log (Time.getCurrentTime(), "Input Output Exception when exporting") ;
+			System.out.println( "Input Output Exception when exporting") ;
+
 		}
 		
 	}
 	
 	
 	public static void log (double time, String event){
-		logStr [run-1] += Time.toString(time) + "\t" + event +  System.getProperty("line.separator")  ;
+		//logStr [run-1] += Time.toString(time) + "\t" + event +  System.getProperty("line.separator")  ;
 	}
-	public static void log (Competitor [] number, String event, double time){
+	public static void log (Competitor [] number){
+		String o= "," ;
+		if (logStr [run-1].equalsIgnoreCase("'[")) o = "";
 		for (Competitor n : number)
-		logStr [run-1] += n.getNumber() + "\t" + event + " \t"+ (time == 0 ? "DNF" : Time.toString(time) ) +  System.getProperty("line.separator")  ;
+		logStr [run-1] += o+"{\"BIB\":\"" +n.getNumber() + "\"" + ",\"ELAPSED\":\""+ (n.isDNF() ? "DNF\"}" : String.format("%.2f", n.calculateTotalTime())+ "\"}" ) ;
+	
 	}
-	
-	
 
 }
