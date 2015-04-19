@@ -9,7 +9,9 @@ IndEvent n2 ;
 			n1 = new IndEvent ();
 			n2 = new IndEvent ();
 			
-	} 
+	}
+
+        public void swap(){};
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub
