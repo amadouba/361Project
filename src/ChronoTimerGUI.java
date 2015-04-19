@@ -196,14 +196,6 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		JPanel labelPanel = new JPanel (new GridLayout(4,1,2, 2));
 		JPanel btnPanel = new JPanel(new GridLayout(4,4));
 		
-		/*JPanel startChannels = new JPanel();
-		JPanel finishChannels = new JPanel();
-		JPanel ppChannels = new JPanel();
-		JPanel qqChannels = new JPanel();
-		ppChannels.setLayout(new BoxLayout(ppChannels, BoxLayout.X_AXIS));
-		qqChannels.setLayout(new BoxLayout(qqChannels, BoxLayout.X_AXIS));
-		startChannels.setLayout(new BoxLayout(startChannels, BoxLayout.X_AXIS));
-		finishChannels.setLayout(new BoxLayout(finishChannels, BoxLayout.X_AXIS));*/
 		
 		
 		labelPanel.add(new JLabel("Enable Start Chnl:"));
@@ -211,17 +203,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		labelPanel.add(new JLabel("Enable Finish Chnl:"));
 		labelPanel.add(new JLabel("Trigger Finish Chnl:"));
 		
-		//JButton[] buttons = new JButton[16];
-		
-	/*	for(int i=1; i<17; i++)
-		{
-			String s = Integer.toString(i) ;
-			JButton j = new JButton(s);
-			j.setActionCommand("TOGGLE " + s);
-			j.addActionListener(this);
-			buttons[i] = j;
-		}*/
-		
+	
 		
 		for(int i=0; i<4; i++)
 		{
@@ -260,15 +242,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		
 		channelPanel.add(labelPanel, BorderLayout.LINE_START);
 		channelPanel.add(btnPanel, BorderLayout.CENTER);
-	
-		/*btnPanel.add(startChannels); 
-		   for (JButton b : strtchnlButtons ) startChannels.add(b);
-		btnPanel.add(ppChannels); 
-		   for (JButton b : ppchnlButtons ) startChannels.add(b);
-		btnPanel.add(qqChannels); 
-		   for (JButton b : qqchnlButtons ) startChannels.add(b);
-		btnPanel.add(finishChannels); 
-		   for (JButton b : fnchnlButtons ) finishChannels.add(b);*/
+
 		
 		
 		/** For the input panel */
@@ -373,7 +347,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			btnPwr.setForeground(Color.black );
 			for (int i = 0 ; i < buttons.length ; i ++){
 				buttons[i].setForeground (Color.black );
-				//strtchnlButtons[i].setForeground (Color.black );
+				
 			}
 					
 
@@ -392,11 +366,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		{
 			buttons[i].setForeground(ChronoTimer.isArmed(j+=2) ? green : Color.black );
 		}
-		/*int i = 1, j = 0 ;
-		for (JButton b : buttons){
-		b.setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); 
 		
-		//fnchnlButtons[j++].setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); */
 		}
 	    
 	
