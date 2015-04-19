@@ -125,6 +125,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	private  int delay = 10 ;
 	static JButton[] fnchnlButtons  ;
 	static JButton[] strtchnlButtons ;
+	static JButton[] ppchnlButtons  ;
+	static JButton[] qqchnlButtons  ;
+	static JButton[] buttons = new JButton[8];
 	static Color green =  new Color(34,139, 34) ;
 	ListIterator<ArrayList<Competitor>> itr;
 
@@ -163,6 +166,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		//add subpanels to lowel level 
 		down.add(controlPanel);
 		down.add(displayPanel);
+		
 		//down.add(comp)
 		
 		// Setting up layout
@@ -189,46 +193,89 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
         /**For the Channel Panel*/ 
 		//which includes the label panel in the Border.East
 		  //and buttons panels in the Border.Center, subdivided in two rows start buttons (channels) up top and finish buttons (channels) down
-		JPanel labelPanel = new JPanel (new GridLayout(2,1));
-		JPanel btnPanel = new JPanel(new GridLayout(2,1));
-		JPanel startChannels = new JPanel();
+		JPanel labelPanel = new JPanel (new GridLayout(4,1,2, 2));
+		JPanel btnPanel = new JPanel(new GridLayout(4,4));
+		
+		/*JPanel startChannels = new JPanel();
 		JPanel finishChannels = new JPanel();
+		JPanel ppChannels = new JPanel();
+		JPanel qqChannels = new JPanel();
+		ppChannels.setLayout(new BoxLayout(ppChannels, BoxLayout.X_AXIS));
+		qqChannels.setLayout(new BoxLayout(qqChannels, BoxLayout.X_AXIS));
 		startChannels.setLayout(new BoxLayout(startChannels, BoxLayout.X_AXIS));
-		finishChannels.setLayout(new BoxLayout(finishChannels, BoxLayout.X_AXIS));
+		finishChannels.setLayout(new BoxLayout(finishChannels, BoxLayout.X_AXIS));*/
 		
-		labelPanel.add(new JLabel("Start"));
-		labelPanel.add(new JLabel("Finish"));
-		strtchnlButtons = new JButton[4];
-		for (int i = 0 ; i < strtchnlButtons.length ; i++){
-			String s = Integer.toString(2*i +1) ;
-			strtchnlButtons[i] = new JButton ();
-			strtchnlButtons[i].setText(s);
-			strtchnlButtons[i].setActionCommand("TOGGLE " + s);
-			strtchnlButtons[i].addActionListener(this);
+		
+		labelPanel.add(new JLabel("Enable Start Chnl:"));
+		labelPanel.add(new JLabel("Trigger Start Chnl:"));
+		labelPanel.add(new JLabel("Enable Finish Chnl:"));
+		labelPanel.add(new JLabel("Trigger Finish Chnl:"));
+		
+		//JButton[] buttons = new JButton[16];
+		
+	/*	for(int i=1; i<17; i++)
+		{
+			String s = Integer.toString(i) ;
+			JButton j = new JButton(s);
+			j.setActionCommand("TOGGLE " + s);
+			j.addActionListener(this);
+			buttons[i] = j;
+		}*/
+		
+		
+		for(int i=0; i<4; i++)
+		{
+			JButton b = new JButton(Integer.toString(2*i+1));
+			b.setActionCommand("TOGGLE " + (2*i+1));
+			b.addActionListener(this);
+			buttons[i] = b;
+			btnPanel.add(b);
+		}
+		for(int i=0; i<4; i++)
+		{
+			JButton b = new JButton("T");
+			b.setActionCommand("TRIG " + (2*i+1));
+			b.addActionListener(this);
+			
+			btnPanel.add(b);
+		}
+		for(int i=0; i<4; i++)
+		{
+			JButton b = new JButton(Integer.toString(2*i+2));
+			b.setActionCommand("TOGGLE " + (2*i+2) );
+			b.addActionListener(this);
+			buttons[i+4] = b;
+			btnPanel.add(b);
+		}
+		for(int i=0; i<4; i++)
+		{
+			JButton b = new JButton("T");
+			b.setActionCommand("TRIG " + (2*i+2));
+			b.addActionListener(this);
+			
+			btnPanel.add(b);
 		}
 		
-		
-		
-		fnchnlButtons = new JButton[4];
-		for (int i = 0 ; i < fnchnlButtons.length ; i++){
-			String s = Integer.toString(2*i +2) ;
-			fnchnlButtons[i]= new JButton ();
-			fnchnlButtons[i].setText(s);
-			fnchnlButtons[i].setActionCommand("TOGGLE " + s);
-			fnchnlButtons[i].addActionListener(this);
-		}
-		
+	
 		
 		channelPanel.add(labelPanel, BorderLayout.LINE_START);
 		channelPanel.add(btnPanel, BorderLayout.CENTER);
-		btnPanel.add(startChannels); for (JButton b : strtchnlButtons ) startChannels.add(b);
-		btnPanel.add(finishChannels); for (JButton b : fnchnlButtons ) finishChannels.add(b);
+	
+		/*btnPanel.add(startChannels); 
+		   for (JButton b : strtchnlButtons ) startChannels.add(b);
+		btnPanel.add(ppChannels); 
+		   for (JButton b : ppchnlButtons ) startChannels.add(b);
+		btnPanel.add(qqChannels); 
+		   for (JButton b : qqchnlButtons ) startChannels.add(b);
+		btnPanel.add(finishChannels); 
+		   for (JButton b : fnchnlButtons ) finishChannels.add(b);*/
 		
 		
 		/** For the input panel */
-		String [] raceType = new String[]{"IND", "PARIND", "GRP", "PARGRP"};
+		String [] raceType = new String[]{"Individual", "Parallel Individual", "Group", "Parallel Group"};
 		 raceTypes = new JComboBox<>(raceType);
 		create = new JButton("Set");
+		
 		create.addActionListener(this);
 		
 		
@@ -249,7 +296,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
         JButton btnDNF = new JButton("DNF");
         JButton btnStart = new JButton("Start");
         btnStart.setActionCommand("START");
-        JButton btnEnd = new JButton("End");
+        JButton btnEnd = new JButton("Finish");
         btnEnd.setActionCommand("FIN");
         JButton btnCan = new JButton("Cancel");
         btnCan.setActionCommand("CANCEL");
@@ -303,7 +350,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		     
 		
 		setVisible(true);
-		setSize(600, 400);
+		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -324,9 +371,9 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 			btnPwr.setForeground(green);
 		else{
 			btnPwr.setForeground(Color.black );
-			for (int i = 0 ; i < strtchnlButtons.length ; i ++){
-				fnchnlButtons[i].setForeground (Color.black );
-				strtchnlButtons[i].setForeground (Color.black );
+			for (int i = 0 ; i < buttons.length ; i ++){
+				buttons[i].setForeground (Color.black );
+				//strtchnlButtons[i].setForeground (Color.black );
 			}
 					
 
@@ -334,14 +381,25 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		 
 	}
 	static void repaintChP(){
-		int i = 1, j = 0 ;
-		for (JButton b : strtchnlButtons ){
+		int j = -1;
+		for(int i =0; i<4; i++)
+		{
+			buttons[i].setForeground(ChronoTimer.isArmed(j+=2) ? green : Color.black );
+		}
+		
+		j = 0;
+		for(int i =4; i<8; i++)
+		{
+			buttons[i].setForeground(ChronoTimer.isArmed(j+=2) ? green : Color.black );
+		}
+		/*int i = 1, j = 0 ;
+		for (JButton b : buttons){
 		b.setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); 
 		
-		fnchnlButtons[j++].setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); 
+		//fnchnlButtons[j++].setForeground(ChronoTimer.isArmed(i++) ? green : Color.black ); */
 		}
 	    
-	}
+	
 
 
 
