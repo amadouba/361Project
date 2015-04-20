@@ -62,8 +62,11 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 		ch = index ;
 		if (finish.isEmpty())
 			channels[index - 1 ].channelTrigger();
-		else
-			fn();
+		else{
+			
+			log (fn());
+		}
+			
 	}
 
 	@Override

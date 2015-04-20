@@ -336,7 +336,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		     
 		
 		setVisible(true);
-		setSize(800, 600);
+		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -389,9 +389,6 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String s = e.getActionCommand();
-		
-			
-			
 		
 		
 		try{

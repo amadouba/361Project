@@ -59,7 +59,7 @@ public class ChronoTimer {
 			c.setRunNumber(run);
 		}
 		
-		//log (numbers, "START" , Time.getCurrentTime() ) ;
+		///log (numbers, "START" , Time.getCurrentTime() ) ;
 	}
 	public static void finish() {
 		// TODO Auto-generated method stub
