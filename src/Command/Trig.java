@@ -11,14 +11,16 @@ public class Trig implements Command {
 	}
 
 	@Override
-	public void execute(int n) {
+	public void execute(int index) {
 		// TODO Auto-generated method stub
-		ChronoTimer.TriggerChannel(n);
+		if(!ChronoTimer.power) throw new IllegalStateException("Timer is OFF");
+		ChronoTimer.typeEvent.TriggerCh(index);
 	}
 
 	@Override
 	public void execute(String s) {
 		// TODO Auto-generated method stub
+		
 		
 	}
 

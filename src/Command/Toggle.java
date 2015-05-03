@@ -2,6 +2,11 @@ package Command;
 
 import ChronoTimer.ChronoTimer;
 
+
+/**
+ * Switch the state of a channel from armed/disarmed to disarmed/armed
+ * @param index represents the channel
+ */
 public class Toggle implements Command{
 
 	@Override
@@ -10,9 +15,12 @@ public class Toggle implements Command{
 	}
 
 	@Override
-	public void execute(int n) {
+	public void execute(int index) {
 		// TODO Auto-generated method stub
-		ChronoTimer.toggleChannel(n);
+		if (ChronoTimer.power){
+			if (ChronoTimer.channels[index - 1] != null)
+				ChronoTimer.channels[index - 1].toggle();
+		}
 
 	}
 

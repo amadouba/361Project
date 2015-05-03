@@ -131,13 +131,13 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	static JButton[] buttons = new JButton[8];
 	static Color green =  new Color(34,139, 34) ;
 	ListIterator<ArrayList<Competitor>> itr;
-	//public static InputParser InputParser ;
+	public static InputParser InputParser ;
 
 
    
 	public static void main(String[] args){
 		
-		new InputParser(new UpdateView()) ;
+		InputParser = new InputParser(new UpdateView()) ;
 		new ChronoTimerGUI();
 	}
 	

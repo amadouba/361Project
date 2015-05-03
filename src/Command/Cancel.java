@@ -1,13 +1,16 @@
 package Command;
 
 import ChronoTimer.ChronoTimer;
+import ChronoTimer.Competitor;
 
 public class Cancel implements Command{
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		ChronoTimer.cancel();
+		if(!ChronoTimer.power) throw new IllegalStateException("Timer is OFF") ;
+		
+		Competitor[] b = ChronoTimer.typeEvent.cancl();
 	}
 
 	@Override

@@ -7,7 +7,9 @@ public class Off implements Command{
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		ChronoTimer.powerOff();
+		new EndRun().execute();
+		ChronoTimer.disarmAll();
+		ChronoTimer.power = false ;
 	}
 
 	@Override

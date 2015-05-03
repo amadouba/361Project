@@ -7,7 +7,8 @@ public  class Swap implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		ChronoTimer.swAp();
+		if (ChronoTimer.toFinish.isEmpty()) throw new IllegalStateException("No Competitor running");
+		ChronoTimer.typeEvent.swap();
 	}
 
 	@Override

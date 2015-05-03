@@ -1,13 +1,22 @@
 package Command;
 
 import ChronoTimer.ChronoTimer;
+import ChronoTimer.Competitor;
 
+
+/**Marks the next running competitor as did not finish
+ * 
+ */
 public class DNF implements Command {
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		ChronoTimer.dnf();
+		if(!ChronoTimer.power) throw new IllegalStateException ("Timer is OFF") ;
+
+		
+		Competitor[] b = ChronoTimer.typeEvent.dnfinish();
+		ChronoTimer.log (b) ;
 	}
 
 	@Override

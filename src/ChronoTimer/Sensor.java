@@ -5,7 +5,7 @@ public class Sensor {
 	boolean isArmed;
 	static Channel c ;
 
-	Sensor (String s){
+	public Sensor (String s){
 		typeOfSensor = s ;
 	}
 	// for testing purposes

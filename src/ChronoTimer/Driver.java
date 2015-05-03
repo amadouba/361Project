@@ -25,7 +25,7 @@ private static double ts ;
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		Scanner stdIn ;
-		Command c = null  ;
+		Command c  ;
 		
 		boolean loop = true;
 		ChronoTimer.logStr[0] = "";
@@ -41,10 +41,11 @@ private static double ts ;
 			stdIn = new Scanner(System.in);
   		
 		
-		//Instantiate Parser
-		new InputParser(new UpdateView()) ;
+		//Instantiate Parsers
+		InputParser InputParser = new InputParser(new UpdateView()) ;
+		ChronoTimerGUI.InputParser = InputParser ;
 		//Builds GUI 
-		 new ChronoTimerGUI ();
+		// new ChronoTimerGUI ();
 		
 	
 	// Scanner Loop for input
