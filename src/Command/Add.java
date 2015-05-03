@@ -2,6 +2,8 @@ package Command;
 
 import ChronoTimer.ChronoTimer;
 import ChronoTimer.Competitor;
+import Event.ParGrpEvent;
+import Event.ParIndEvent;
 
 
 /**
@@ -24,7 +26,13 @@ public class Add  implements Command {
 		Competitor c = new Competitor(n);
 		if(ChronoTimer.toStart != null && ChronoTimer.toStart.contains(c)) throw new IllegalStateException("Competitor already in queue");
 		
-		ChronoTimer.toStart.add(c);
+		
+		if (ChronoTimer.typeEvent instanceof ParIndEvent){
+			if (ChronoTimer.toStart.size() < 2) ChronoTimer.toStart.add(c);
+		}else if (ChronoTimer.typeEvent instanceof ParGrpEvent){
+			if (ChronoTimer.toStart.size() < 8) ChronoTimer.toStart.add(c);
+		}else
+			 ChronoTimer.toStart.add(c);
 	}
 
 	@Override

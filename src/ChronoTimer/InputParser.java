@@ -14,7 +14,7 @@ public class InputParser extends Observable {
 	}
 	public  void parseInput(String s)throws IllegalArgumentException{
 		String[] strAr = s.split(" ");
-		int flag = 0 ;                      // 1 for repaintCP -- 2 for repaintRP&repaintFP -- 3 for repaintQP -- 4 for repaintChP -- 5 is dependent
+		int flag = 0 ;            // 1 for repaintCP -- 2 for repaintRP&repaintFP -- 3 for repaintQP -- 4 for repaintChP -- 5 is dependent
 		//ON, OFF, START, FIN, DNF, CANCEL, PRINT
 		if(strAr.length==1){
 			if(strAr[0].equals("ON")){
@@ -90,7 +90,6 @@ public class InputParser extends Observable {
 				c = new Toggle();
 				c.execute(Integer.parseInt(strAr[1]));
 				flag = 4 ;
-				
 			}
 			else if(strAr[0].equals("NUM")){
 				c =new Add();

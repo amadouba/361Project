@@ -1,16 +1,8 @@
 package ChronoTimer;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Observable;
 import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import Command.Command;
 
@@ -41,11 +33,11 @@ private static double ts ;
 			stdIn = new Scanner(System.in);
   		
 		
-		//Instantiate Parsers
+		//Instantiate Parser & Builds GUI 
 		InputParser InputParser = new InputParser(new UpdateView()) ;
 		ChronoTimerGUI.InputParser = InputParser ;
-		//Builds GUI 
-		// new ChronoTimerGUI ();
+		
+		
 		
 	
 	// Scanner Loop for input

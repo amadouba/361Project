@@ -9,9 +9,10 @@ import ChronoTimer.Time;
 
 public class IndEvent   extends ChronoTimer  implements EventInterface{
 	ArrayList <Competitor>finish = new ArrayList<Competitor>() ; 
+	
 	public IndEvent (){
-		
 		toFinish.add(finish);
+		grant = Integer.MAX_VALUE ;
 	}
 	
 	

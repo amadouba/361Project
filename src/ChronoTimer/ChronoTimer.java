@@ -19,7 +19,7 @@ public class ChronoTimer {
 	public static FileOutputStream eventlog ;   
 	public static String logStr [] = new String [50] ;  //  50 strings (event logs) for 50 runs
 	public static int run  = 1 ;  // default run number
-	protected boolean nope = false ;
+	public static int grant = Integer.MAX_VALUE ;
 	
 	public static Competitor [] numbers ;    // this field holds the num of the competitors that have been 
 	

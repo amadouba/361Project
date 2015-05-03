@@ -10,6 +10,7 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 	ArrayList <Competitor>finish = new ArrayList <Competitor>() ; 
 	public GrpEvent (){
 		toFinish.add(finish);
+		grant  = Integer.MAX_VALUE ;
 	}
 	@Override
 	public Competitor[] st() {
@@ -24,9 +25,6 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 			a[i].setStartTime(time);
 			finish.add(a[i++]);
 		}
-		 
-		
-		
 	
 		return  a;
 	}

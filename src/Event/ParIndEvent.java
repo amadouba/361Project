@@ -8,16 +8,19 @@ int ch = 0 ;
 IndEvent n1 ;
 IndEvent n2 ;
 
-
 	public ParIndEvent (){
 			n1 = new IndEvent ();
 			n2 = new IndEvent ();
-			
+			grant = 2 - toStart.size() ;
+			while (grant < 0){
+				toStart.remove(toStart.size() -1 );
+				++grant;
+			}
 	} 
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub]
-		nope = true ;
+		
 		switch (ch){
 		  case 1 :  return n1.st(); 
 		  case 3 : return n2.st() ;

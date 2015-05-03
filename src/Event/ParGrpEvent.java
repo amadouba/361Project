@@ -14,7 +14,11 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 	
 	public ParGrpEvent (){
 		toFinish.add(finish);
-		
+		grant = 8 - toStart.size();
+		while (grant < 0){
+			toStart.remove(toStart.size() - 1);
+			++grant;
+		}
 	}
 	@Override
 	public Competitor[] st() {
@@ -32,6 +36,7 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 			finish.add(toArray[i++]);
 			
 		}
+		
 			
 		return  toArray;
 	}

@@ -27,8 +27,8 @@ public class UpdateView extends ChronoTimerGUI implements Observer  {
 					repaintChP();
 					break;
 				case 5 :
-					if (!timer.isRunning()) {timer.start(); repaintQP();}                      // in this case it is a start trigger
-					else {                                                                    // in this case it is a finish trigger
+					if (!timer.isRunning()) {timer.start(); repaintQP();}              // in this case it was a start trigger
+					else {                                                             // in this case it was a finish trigger
 						if (ChronoTimer.toFinish.isEmpty()) timer.stop();
 						repaintRP();
 						repaintFP(); 
