@@ -1,4 +1,9 @@
+package Event;
 import java.util.ArrayList;
+
+import ChronoTimer.ChronoTimer;
+import ChronoTimer.Competitor;
+import ChronoTimer.Time;
 
 
 public class ParGrpEvent extends ChronoTimer implements EventInterface {
@@ -7,12 +12,14 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 	
 	Competitor [] toArray ;
 	
-	ParGrpEvent (){
+	public ParGrpEvent (){
 		toFinish.add(finish);
-		
+		grant = 8 - toStart.size();
+		while (grant < 0){
+			toStart.remove(toStart.size() - 1);
+			++grant;
+		}
 	}
-    
-        public void swap(){}
 	@Override
 	public Competitor[] st() {
 		// TODO Auto-generated method stub
@@ -29,6 +36,7 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 			finish.add(toArray[i++]);
 			
 		}
+		
 			
 		return  toArray;
 	}
@@ -64,8 +72,11 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 		ch = index ;
 		if (finish.isEmpty())
 			channels[index - 1 ].channelTrigger();
-		else
-			fn();
+		else{
+			
+			log (fn());
+		}
+			
 	}
 
 	@Override
@@ -87,6 +98,8 @@ public class ParGrpEvent extends ChronoTimer implements EventInterface {
 		return  c;
 	}
 
+	 public void swap(){}
+	 
 	@Override
 	public Competitor[] dnfinish() {
 		// TODO Auto-generated method stub///

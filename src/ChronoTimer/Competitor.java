@@ -1,3 +1,4 @@
+package ChronoTimer;
 public class Competitor {
 
 	private int bib;

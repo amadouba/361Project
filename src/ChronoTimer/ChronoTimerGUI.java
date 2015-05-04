@@ -1,3 +1,4 @@
+package ChronoTimer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -130,17 +131,20 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	static JButton[] buttons = new JButton[8];
 	static Color green =  new Color(34,139, 34) ;
 	ListIterator<ArrayList<Competitor>> itr;
+	public static InputParser InputParser ;
 
 
    
 	public static void main(String[] args){
-
+		
+		InputParser = new InputParser(new UpdateView()) ;
 		new ChronoTimerGUI();
 	}
 	
 	ChronoTimerGUI(){
-		
 		super ("ChronoTimer");
+		
+		
 		Container pane = getContentPane();
 		//contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		//add(pane);
@@ -336,7 +340,7 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 		     
 		
 		setVisible(true);
-		setSize(800, 600);
+		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -389,9 +393,6 @@ public class ChronoTimerGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String s = e.getActionCommand();
-		
-			
-			
 		
 		
 		try{

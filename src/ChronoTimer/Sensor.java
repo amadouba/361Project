@@ -1,10 +1,11 @@
+package ChronoTimer;
 public class Sensor {
 	final private String typeOfSensor ;
 	boolean isConnected ;
 	boolean isArmed;
 	static Channel c ;
 
-	Sensor (String s){
+	public Sensor (String s){
 		typeOfSensor = s ;
 	}
 	// for testing purposes

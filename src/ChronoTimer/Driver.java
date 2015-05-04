@@ -1,17 +1,13 @@
+package ChronoTimer;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import Command.Command;
 
 
-public class Driver extends JFrame {
+public class Driver  {
 
 
 
@@ -21,6 +17,8 @@ private static double ts ;
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		Scanner stdIn ;
+		Command c  ;
+		
 		boolean loop = true;
 		ChronoTimer.logStr[0] = "";
 		int latency = 0  ; 
@@ -35,9 +33,11 @@ private static double ts ;
 			stdIn = new Scanner(System.in);
   		
 		
-	
-		//Builds GUI 
-		 new ChronoTimerGUI ();
+		//Instantiate Parser & Builds GUI 
+		InputParser InputParser = new InputParser(new UpdateView()) ;
+		ChronoTimerGUI.InputParser = InputParser ;
+		
+		
 		
 	
 	// Scanner Loop for input

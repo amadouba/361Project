@@ -1,10 +1,15 @@
+package ChronoTimer;
+
+import Command.Finish;
+import Command.Start;
+
 public class Channel {
 	private int type ;     // odd is start - even is finish
 	private boolean isArmed = false ;
 	private Sensor sens ;
 	double trigger ;
 
-	Channel (int t){
+	public Channel (int t){
 		type = t ; 
 	}
 
@@ -55,9 +60,9 @@ public class Channel {
 	public void channelTrigger(){
 		if (!isArmed) throw new IllegalStateException ("Channel disarmed");
 		if(type % 2 == 1)
-			ChronoTimer.start();
+			new Start().execute();
 		else
-			ChronoTimer.finish();
+			new Finish().execute();
 	}
 	
 

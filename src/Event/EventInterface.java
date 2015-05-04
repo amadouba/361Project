@@ -1,3 +1,6 @@
+package Event;
+
+import ChronoTimer.Competitor;
 
 public interface EventInterface   {
 
@@ -11,6 +14,8 @@ public interface EventInterface   {
 	Competitor [] cancl ();
 	
 	Competitor [] dnfinish ();
+
+	public void swap();
 
 	//void TriggerChannel(int index);
 	///

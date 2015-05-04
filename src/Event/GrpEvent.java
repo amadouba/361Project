@@ -1,18 +1,16 @@
+package Event;
 import java.util.ArrayList;
+
+import ChronoTimer.ChronoTimer;
+import ChronoTimer.Competitor;
+import ChronoTimer.Time;
 
 
 public class GrpEvent extends ChronoTimer implements EventInterface {
 	ArrayList <Competitor>finish = new ArrayList <Competitor>() ; 
-	GrpEvent (){
+	public GrpEvent (){
 		toFinish.add(finish);
-	}
-    
-
-        public void swap(){
-	    Competitor a = finish.remove(0);
-	    Competitor b = finish.remove(1);
-	    finish.add(0,b);
-	    finish.add(1,a);
+		grant  = Integer.MAX_VALUE ;
 	}
 	@Override
 	public Competitor[] st() {
@@ -27,9 +25,6 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 			a[i].setStartTime(time);
 			finish.add(a[i++]);
 		}
-		 
-		
-		
 	
 		return  a;
 	}
@@ -54,6 +49,13 @@ public class GrpEvent extends ChronoTimer implements EventInterface {
 		channels[index -1 ].channelTrigger();
 	}
 
+	 public void swap(){
+		    Competitor a = finish.remove(0);
+		    Competitor b = finish.remove(1);
+		    finish.add(0,b);
+		    finish.add(1,a);
+		}
+	 
 	@Override
 	public Competitor[] cancl() {
 		// TODO Auto-generated method stub
