@@ -1,6 +1,7 @@
 package Command;
 
 import ChronoTimer.ChronoTimer;
+import Event.IndEvent;
 
 public class Reset implements Command {
 
@@ -13,7 +14,7 @@ public class Reset implements Command {
 					ChronoTimer.toStart.clear();
 					ChronoTimer.toFinish.clear();
 					ChronoTimer.completedRacers.clear();
-					
+					ChronoTimer.typeEvent = new IndEvent();
 					ChronoTimer.disarmAll();
 				}
 	}
